@@ -183,7 +183,7 @@ def month_calendar():
     global ViewSet
     global user
     ViewSet = data_rec['ViewSet']
-    user['ViewSet']=ViewSet
+    user['ViewSet'] = ViewSet
     fd=int(ViewSet['first_day'])
     week_header,week_abbr,month_name,month_abbr,c = calendName(fd)
     month_header=month_name[month]+" "+str(year)
