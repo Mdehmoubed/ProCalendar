@@ -529,5 +529,4 @@ def dict_factory(cursor, row):
 
 
 if '__name__'=='__main__':
-    
     app.run(debug=True)
