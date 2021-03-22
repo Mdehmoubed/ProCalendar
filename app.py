@@ -18,10 +18,11 @@ DATABASE ='/mdn1.db'
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 ###this part for scheduler
+'''
 scheduler = APScheduler()# scheduler object for reminder email
 scheduler.init_app(app) # init it whit app
 scheduler.start() # start to work
-
+'''
 
 ##### this part for email sender 
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -32,11 +33,14 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 #manager = Manager(app)
 mail = Mail(app)
+
+'''
 def shell_context():
     import os, sys
     return dict(app=app, os=os, sys=sys)
 
 #manager.add_command("shell", Shell(make_context=shell_context))
+'''
 
 def async_send_mail(app, msg):
     with app.app_context():
@@ -385,8 +389,11 @@ def edit_event():
         event_id=int(jsd['ido'])
         cur.execute('UPDATE event SET eventname=?,address=?,username=?,date=?,\
                     start=?,endt=?,group=? reminder=? WHERE eventID=?',(name,address,uname,date,start,endt,groupID,reminder,event_id))
-        scheduler.remove_job(str(event_id))
-   
+        ###############################################################3
+        #scheduler.remove_job(str(event_id))
+        ################################################################
+
+
     if (jsd['st']=='addEv'):
         cur.execute('INSERT INTO event(eventname,address,username,date,start,endt,groupID,reminder)\
                     VALUES (?,?,?,?,?,?,?,?)',(name,address,uname,date,start,endt,groupID,reminder))
@@ -413,9 +420,10 @@ def edit_event():
         date='2021-03-02'
     cur.execute("select * from event where username = ? and date = ? Order by date,start;",(session['username'],date))
     events =cur.fetchall()
-
+    #######################################################3
     #add_sch is not in proper place
-    add_sch(events,user)
+    #add_sch(events,user)
+    #########################################################3
     con.close()
     day_data={'day_event':events,'day_id':date}
     return {'day_data':day_data}
@@ -481,8 +489,8 @@ def edit_group():
     con.close()
     return 'ok'
 
-
-
+###############################################33
+'''
 def add_sch(events,user):
     for event in events :
         ind= event['reminder']
@@ -513,12 +521,10 @@ def scheduled_task(event,user,e_id):
     send_email(user['email'],message_body,subjects)
     return
 
-    
+'''    
+#################################################3
 
 
-
-#def add_sch(email,message_body,subjects,date,start,event_id):
-#    return
 
 
 def dict_factory(cursor, row):
